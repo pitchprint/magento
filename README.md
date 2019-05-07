@@ -1,2 +1,2 @@
-# PitchPrint Releases for Magento
-* Release for Magento 2.0
+# pitchprint-magento
+Integration of PitchPrint for Magento CMS
