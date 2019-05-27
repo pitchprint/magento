@@ -49,6 +49,8 @@ class AddToCartAfterComplete implements ObserverInterface
         $ppData = $this->request->getParam('_pitchprint');
         if ($ppData) {
             $cItem = end($this->allItems);
+            if ($cItem->getProductType() != 'simple') 
+                $cItem = $this->allItems[count($this->allItems) - 2];
             $this->saveProjectData($cItem->getItemId(), $ppData);
         }
     }
