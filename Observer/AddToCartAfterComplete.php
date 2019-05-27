@@ -7,6 +7,7 @@
  * @author      PitchPrint - Alcino Van Rooyen
  *
  */
+ 
 namespace PitchPrintInc\PitchPrint\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
@@ -49,9 +50,12 @@ class AddToCartAfterComplete implements ObserverInterface
         $ppData = $this->request->getParam('_pitchprint');
         if ($ppData) {
             $cItem = end($this->allItems);
-            if ($cItem->getProductType() != 'simple') 
-                $cItem = $this->allItems[count($this->allItems) - 2];
-            $this->saveProjectData($cItem->getItemId(), $ppData);
+            if (count($cItem->getParentItem())) {
+                $cItem = $cItem->getParentItemId();
+            }else{
+                $cItem = $cItem->getItemId();
+            }
+            $this->saveProjectData($cItem, $ppData);
         }
     }
 

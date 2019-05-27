@@ -17,7 +17,7 @@ class PitchPrintRenderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items
         $resource       = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $db             = $resource->getConnection(); 
         $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM); //gives table name with prefix
-		$sql            = "SELECT `project_data` FROM $tableName WHERE `quote_id` = $quoteId";
+		$sql            = "SELECT `project_data` FROM $tableName WHERE `item_id` = $quoteId";
         $data           = $db->fetchAll( $sql );
         return $data;
 	}
