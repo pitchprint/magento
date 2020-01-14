@@ -50,7 +50,7 @@ class AddToCartAfterComplete implements ObserverInterface
         $ppData = $this->request->getParam('_pitchprint');
         if ($ppData) {
             $cItem = end($this->allItems);
-            if (count($cItem->getParentItem())) {
+            if ($cItem->getParentItem()) {
                 $cItem = $cItem->getParentItemId();
             }else{
                 $cItem = $cItem->getItemId();

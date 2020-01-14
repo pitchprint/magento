@@ -2,9 +2,12 @@
 
 namespace PitchPrintInc\PitchPrint\Controller\Adminhtml\Configuration;
 
-class Save extends \Magento\Framework\App\Action\Action
-{
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
 
+class Save extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+{
     /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
@@ -22,6 +25,19 @@ class Save extends \Magento\Framework\App\Action\Action
     {
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
+    }
+
+    /**
+     * Csrf stuff
+     * José H Van Amson contributed these two functions below
+     */
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
     }
 
     /**
