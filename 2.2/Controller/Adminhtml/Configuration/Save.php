@@ -4,17 +4,9 @@ namespace PitchPrintInc\PitchPrint\Controller\Adminhtml\Configuration;
 
 class Save extends \Magento\Framework\App\Action\Action
 {
-
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory
-     */
     protected $resultPageFactory;
     protected $keysModel;
     
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory
@@ -23,17 +15,9 @@ class Save extends \Magento\Framework\App\Action\Action
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
-
-    /**
-     * Default customer account page
-     *
-     * @return void
-     */
     public function execute()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        
         $request = $this->getRequest()->getParams();
 
         try{
@@ -47,9 +31,7 @@ class Save extends \Magento\Framework\App\Action\Action
             $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
             return $resultRedirect->setPath('pitchprint/configuration/index');
         }
-
     }
-  
     private function saveCredentials($request)
     {
         $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
@@ -59,9 +41,8 @@ class Save extends \Magento\Framework\App\Action\Action
         $api_key    = $db->quote( trim($request['api_key'], ' ') );
         $secret_key = $db->quote( trim($request['secret_key'], ' ') );
       
-        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_CONFIG); //gives table name with prefix
-      
-        $data = $db->query("REPLACE INTO $tableName VALUES (1, $api_key, $secret_key)");
+        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_CONFIG);
+        $data           = $db->query("REPLACE INTO $tableName VALUES (1, $api_key, $secret_key)");
     }
 
 }

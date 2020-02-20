@@ -65,12 +65,10 @@ class InstallSchema implements InstallSchemaInterface
         ]);
         $this->_installer->endSetup();
     }
-    
     private function _createTable( $tableName, $columns )
     {
         // Check if the table already exists
         if ( !$this->_conn->isTableExists($tableName) ) {
-
             // Create the table
             $table = $this->_installer->getConnection()->newTable($tableName);
 
@@ -89,16 +87,12 @@ class InstallSchema implements InstallSchemaInterface
                 );
 
             }
-            
             $table->setComment('Store PitchPrint Crendentials')
                 ->setOption('type', 'InnoDB')
                 ->setOption('charset', 'utf8');
             
             $this->_installer->getConnection()->createTable($table);
         }
-
     }
-
     private function cleanName ($name) { return ucwords( str_replace( '_', ' ', $name ) ); }
-
 }

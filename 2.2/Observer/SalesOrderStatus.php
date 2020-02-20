@@ -26,7 +26,6 @@ class SalesOrderStatus implements ObserverInterface
         $order = $observer->getEvent()->getOrder();
       
         if($order->getState() == Order::STATE_COMPLETE) {
-            //Your code after completed state goes to here
             $user = $this->authSession->getUser();
             $userId = $user ? $user->getId() : 0;
             $items          = $order->getAllItems();
@@ -106,7 +105,7 @@ class SalesOrderStatus implements ObserverInterface
 	    $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
         $resource       = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $db             = $resource->getConnection(); 
-        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM); //gives table name with prefix
+        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM);
 		$sql            = "SELECT `project_data` FROM $tableName WHERE `quote_id` = $quoteId";
         $data           = $db->fetchAll( $sql );
         return $data;

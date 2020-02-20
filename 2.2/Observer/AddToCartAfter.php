@@ -27,13 +27,11 @@ class AddToCartAfter implements ObserverInterface
 		$this->serializer = $serializer;
 		$this->allItems = $this->getAllItems();
 	}
-	
 	private function getAllItems() {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         return $cart->getQuote()->getAllItems();
 	}
-	
 	private function getProductOccurence($pid) {
 	    $occur = 1;
 	    foreach($this->allItems as $item)
@@ -41,7 +39,6 @@ class AddToCartAfter implements ObserverInterface
 	            $occur ++;
 	    return $occur;
 	}
-	
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $ppData = $this->request->getParam('_pitchprint');
         $cItem = $observer->getEvent()->getData('quote_item');
@@ -58,5 +55,4 @@ class AddToCartAfter implements ObserverInterface
         	));
         }
     }
-
 }

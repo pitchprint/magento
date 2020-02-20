@@ -1,11 +1,5 @@
 <?php
 
-/*
- * Reference for this code template:
- *	https://blog.mageworx.com/2016/08/an-easy-way-to-add-a-fieldset-with-fields-to-the-ui-form/
- *
- */
-
 namespace PitchPrintInc\PitchPrint\Ui\DataProvider\Product\Form\Modifier;
 
 use Magento\Catalog\Model\Locator\LocatorInterface;
@@ -23,59 +17,30 @@ use Magento\Ui\Component\Form\Element\Select;
 
 class PitchPrintDesigns extends AbstractModifier
 {
-
     // Components indexes
     const CUSTOM_FIELDSET_INDEX = 'pitch_print_fieldset';
     const CUSTOM_FIELDSET_CONTENT = 'pitch_print_fieldset_content';
     const CONTAINER_HEADER_NAME = 'pitch_print_fieldset_content_header';
 
-    // Fields names
-//     const FIELD_NAME_TEXT = 'example_text_field';
+    // Fields names 
     const FIELD_NAME_SELECT = 'ppa_pick';
-//     const FIELD_NAME_MULTISELECT = 'example_multiselect_field';
 
 	const PP_FIRST_SELECT_ELEMENT = [ [ 'value' => 'none', 'label' => 'None' ] ];
 
-    /**
-     * @var \Magento\Catalog\Model\Locator\LocatorInterface
-     */
     protected $locator;
 
-    /**
-     * @var ArrayManager
-     */
     protected $arrayManager;
 
-    /**
-     * @var UrlInterface
-     */
     protected $urlBuilder;
 
-    /**
-     * @var array
-     */
     protected $meta = [];
 
-	/**
-	 * @var object : database instance.
-	 */
 	protected $_db;
 	
-	/**
-	 * @var object : resource connection.
-	 */
 	protected $_resource;
 	
-	/**
-	 * @var text
-	 */
 	protected $_prodDesignId;
 	
-    /**
-     * @param LocatorInterface $locator
-     * @param ArrayManager $arrayManager
-     * @param UrlInterface $urlBuilder
-     */
     public function __construct(
         LocatorInterface $locator,
         ArrayManager $arrayManager,
@@ -84,11 +49,9 @@ class PitchPrintDesigns extends AbstractModifier
         $this->locator = $locator;
         $this->arrayManager = $arrayManager;
         $this->urlBuilder = $urlBuilder;
-		
 		$objectManager  	= \Magento\Framework\App\ObjectManager::getInstance();
        	$this->_resource    = $objectManager->get('Magento\Framework\App\ResourceConnection');
-    	$this->_db      	= $this->_resource->getConnection();
-		
+    	$this->_db      	= $this->_resource->getConnection();	
 		$this->_prodDesignId = $this->_getProductDesign();
     }
 	
@@ -109,24 +72,10 @@ class PitchPrintDesigns extends AbstractModifier
 		}
 		return 0;
 	}
-
-    /**
-     * Data modifier, does nothing in our example.
-     *
-     * @param array $data
-     * @return array
-     */
     public function modifyData(array $data)
     {
         return $data;
     }
-
-    /**
-     * Meta-data modifier: adds ours fieldset
-     *
-     * @param array $meta
-     * @return array
-     */
     public function modifyMeta(array $meta)
     {
         $this->meta = $meta;
@@ -134,12 +83,6 @@ class PitchPrintDesigns extends AbstractModifier
 
         return $this->meta;
     }
-
-    /**
-     * Merge existing meta-data with our meta-data (do not overwrite it!)
-     *
-     * @return void
-     */
     protected function addCustomFieldset()
     {
         $this->meta = array_merge_recursive(
@@ -149,12 +92,6 @@ class PitchPrintDesigns extends AbstractModifier
             ]
         );
     }
-
-    /**
-     * Declare ours fieldset config
-     *
-     * @return array
-     */
     protected function getFieldsetConfig()
     {
         return [
@@ -163,7 +100,7 @@ class PitchPrintDesigns extends AbstractModifier
                     'config' => [
                         'label' => __('PitchPrint'),
                         'componentType' => Fieldset::NAME,
-                        'dataScope' => static::DATA_SCOPE_PRODUCT, // save data in the product data
+                        'dataScope' => static::DATA_SCOPE_PRODUCT,
                         'provider' => static::DATA_SCOPE_PRODUCT . '_data_source',
                         'ns' => static::FORM_NAME,
                         'collapsible' => true,
@@ -178,13 +115,6 @@ class PitchPrintDesigns extends AbstractModifier
             ],
         ];
     }
-
-    /**
-     * Get config for header container
-     *
-     * @param int $sortOrder
-     * @return array
-     */
     protected function getHeaderContainerConfig($sortOrder)
     {
         return [
@@ -203,16 +133,8 @@ class PitchPrintDesigns extends AbstractModifier
             'children' => [],
         ];
     }
-
-    /**
-     * Example select field config
-     *
-     * @param $sortOrder
-     * @return array
-     */
     protected function getSelectFieldConfig($sortOrder)
     {
-// 		print_r($this->_prodDesignId);die();
         return [
             'arguments' => [
                 'data' => [

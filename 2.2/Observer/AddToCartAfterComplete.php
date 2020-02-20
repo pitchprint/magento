@@ -27,25 +27,22 @@ class AddToCartAfterComplete implements ObserverInterface
 		$this->allItems = $this->getAllItems();
 		 
 	}
-	
 	private function getAllItems() {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         return $cart->getQuote()->getAllItems();
 	}
-	
 	private function saveProjectData($quoteId, $projectData) {
 	    $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
         $resource       = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $db             = $resource->getConnection(); 
-        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM); //gives table name with prefix
+        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM);
       	$quoteId		= $db->quote($quoteId);
 		$pData  		= $db->quote($projectData);
 		$sql            = "INSERT INTO $tableName VALUES ( $quoteId, $pData )";
         $data           = $db->query( $sql );
         return $data;
 	}
-	
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $ppData = $this->request->getParam('_pitchprint');
         if ($ppData) {
@@ -58,5 +55,4 @@ class AddToCartAfterComplete implements ObserverInterface
             $this->saveProjectData($cItem, $ppData);
         }
     }
-
 }

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * Reference for this code template:
- *	https://blog.mageworx.com/2016/08/an-easy-way-to-add-a-fieldset-with-fields-to-the-ui-form/
- *
- */
-
 namespace PitchPrintInc\PitchPrint\Ui\DataProvider\Product\Form\Modifier;
 
 use Magento\Catalog\Model\Locator\LocatorInterface;
@@ -15,52 +9,27 @@ use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Container;
 use Magento\Ui\Component\Form\Fieldset;
 use Magento\Ui\Component\Form\Field;
-//use Magento\Ui\Component\Form\Element\DataType\Number;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\Select;
-//use Magento\Ui\Component\Form\Element\MultiSelect;
 
 class PitchPrintDesigns extends AbstractModifier
 {
-
     // Components indexes
     const CUSTOM_FIELDSET_INDEX = 'pitch_print_fieldset';
     const CUSTOM_FIELDSET_CONTENT = 'pitch_print_fieldset_content';
     const CONTAINER_HEADER_NAME = 'pitch_print_fieldset_content_header';
 
     // Fields names
-//     const FIELD_NAME_TEXT = 'example_text_field';
     const FIELD_NAME_SELECT = 'pitch-print_design_id';
-//     const FIELD_NAME_MULTISELECT = 'example_multiselect_field';
 
 	const PP_FIRST_SELECT_ELEMENT = [ [ 'value' => 0, 'label' => 'None' ] ];
 
-    /**
-     * @var \Magento\Catalog\Model\Locator\LocatorInterface
-     */
     protected $locator;
-
-    /**
-     * @var ArrayManager
-     */
     protected $arrayManager;
-
-    /**
-     * @var UrlInterface
-     */
     protected $urlBuilder;
-
-    /**
-     * @var array
-     */
     protected $meta = [];
 
-    /**
-     * @param LocatorInterface $locator
-     * @param ArrayManager $arrayManager
-     * @param UrlInterface $urlBuilder
-     */
     public function __construct(
         LocatorInterface $locator,
         ArrayManager $arrayManager,
@@ -70,24 +39,10 @@ class PitchPrintDesigns extends AbstractModifier
         $this->arrayManager = $arrayManager;
         $this->urlBuilder = $urlBuilder;
     }
-
-    /**
-     * Data modifier, does nothing in our example.
-     *
-     * @param array $data
-     * @return array
-     */
     public function modifyData(array $data)
     {
         return $data;
     }
-
-    /**
-     * Meta-data modifier: adds ours fieldset
-     *
-     * @param array $meta
-     * @return array
-     */
     public function modifyMeta(array $meta)
     {
         $this->meta = $meta;
@@ -95,12 +50,6 @@ class PitchPrintDesigns extends AbstractModifier
 
         return $this->meta;
     }
-
-    /**
-     * Merge existing meta-data with our meta-data (do not overwrite it!)
-     *
-     * @return void
-     */
     protected function addCustomFieldset()
     {
         $this->meta = array_merge_recursive(
@@ -110,12 +59,6 @@ class PitchPrintDesigns extends AbstractModifier
             ]
         );
     }
-
-    /**
-     * Declare ours fieldset config
-     *
-     * @return array
-     */
     protected function getFieldsetConfig()
     {
         return [
@@ -124,7 +67,7 @@ class PitchPrintDesigns extends AbstractModifier
                     'config' => [
                         'label' => __('Fieldset Title'),
                         'componentType' => Fieldset::NAME,
-                        'dataScope' => static::DATA_SCOPE_PRODUCT, // save data in the product data
+                        'dataScope' => static::DATA_SCOPE_PRODUCT,
                         'provider' => static::DATA_SCOPE_PRODUCT . '_data_source',
                         'ns' => static::FORM_NAME,
                         'collapsible' => true,
@@ -135,19 +78,10 @@ class PitchPrintDesigns extends AbstractModifier
             ],
             'children' => [
                 static::CONTAINER_HEADER_NAME => $this->getHeaderContainerConfig(10),
-//                 static::FIELD_NAME_TEXT => $this->getTextFieldConfig(20),
                 static::FIELD_NAME_SELECT => $this->getSelectFieldConfig(30),
-//                 static::FIELD_NAME_MULTISELECT => $this->getMultiSelectFieldConfig(40),
             ],
         ];
     }
-
-    /**
-     * Get config for header container
-     *
-     * @param int $sortOrder
-     * @return array
-     */
     protected function getHeaderContainerConfig($sortOrder)
     {
         return [
@@ -166,13 +100,6 @@ class PitchPrintDesigns extends AbstractModifier
             'children' => [],
         ];
     }
-
-    /**
-     * Example text field config
-     *
-     * @param $sortOrder
-     * @return array
-     */
     protected function getTextFieldConfig($sortOrder)
     {
         return [
@@ -190,13 +117,6 @@ class PitchPrintDesigns extends AbstractModifier
             ],
         ];
     }
-
-    /**
-     * Example select field config
-     *
-     * @param $sortOrder
-     * @return array
-     */
     protected function getSelectFieldConfig($sortOrder)
     {
         return [
@@ -217,13 +137,6 @@ class PitchPrintDesigns extends AbstractModifier
             ],
         ];
     }
-
-    /**
-     * Example multi-select field config
-     *
-     * @param $sortOrder
-     * @return array
-     */
     protected function getMultiSelectFieldConfig($sortOrder)
     {
         return [
@@ -244,16 +157,6 @@ class PitchPrintDesigns extends AbstractModifier
             ],
         ];
     }
-
-    /**
-     * Get example options as an option array:
-     *      [
-     *          label => string,
-     *          value => option_id
-     *      ]
-     *
-     * @return array
-     */
     protected function _getOptions()
     {
         $options = [
@@ -273,50 +176,6 @@ class PitchPrintDesigns extends AbstractModifier
 
         return $options;
     }
-
-    //protected $noDesigns = [ [ 'value' => 0, 'label' => 'None' ] ];
-    
-//     public function modifyMeta(array $meta)
-//     {
-
-//         $meta['test_fieldset_name'] = [
-//             'arguments' => [
-//                 'data' => [
-//                     'config' => [
-//                         'label' => __('PitchPrint'),
-//                         'sortOrder' => 50,
-//                         'collapsible' => true,
-//                         'componentType' => Fieldset::NAME
-//                     ]
-//                 ]
-//             ],
-//             'children' => [
-//                 'product[pitch-print_prod-design]' => [
-//                     'arguments' => [
-//                         'data' => [
-//                             'config' => [
-//                                 'formElement' => 'select',
-//                                 'componentType' => Field::NAME,
-//                                 'options' => $this->getPpDesigns(),
-// //                                 [
-// //                                     ['value' => 'test_value_1', 'label' => 'Test Value 1'],
-// //                                     ['value' => 'test_value_2', 'label' => 'Test Value 2'],
-// //                                     ['value' => 'test_value_3', 'label' => 'Test Value 3'],
-// //                                 ],
-//                                 'visible' => 1,
-//                                 'required' => 1,
-//                                 'label' => __('Choose a design')
-//                             ]
-//                         ]
-//                     ]
-//                 ]
-//             ]
-//         ];
-        
-        
-// 		return $meta;
-//     }
-    
 	private function createSingleItem ($item) { 
 		return [ 'value' => $item->id, 'label' => '&nbsp; &nbsp; &nbsp; » ' . $item->title ]; 
 	}
@@ -338,8 +197,6 @@ class PitchPrintDesigns extends AbstractModifier
 				$this->createListItems( $data->items, $options );
 			}
         }
-// 		echo '2<br/>';
-// 		print_r($options);die();
         return $options;
     }
     
@@ -359,7 +216,6 @@ class PitchPrintDesigns extends AbstractModifier
         curl_setopt($ch, CURLOPT_POST, true);
 
         $opts = generateSignature();
-//         $opts['designId'] = 'your-design-id-here';
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($opts));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -368,16 +224,9 @@ class PitchPrintDesigns extends AbstractModifier
         
         $designs = json_decode($output);
         
-//         echo "<pre>1<br/>";
-//         print_r($designs);die();
-//         echo 'eish';
-		
-        if ( isset($designs->data) && count($designs->data) ) {
-// 			echo '1.5<br/>';
+        if ( isset($designs->data) && count($designs->data) )
             return $this->createList($designs->data);
-        }
-// 		echo 'scary';
-//         echo '3';
+       
         return static::PP_FIRST_SELECT_ELEMENT;
     }
     
@@ -390,19 +239,9 @@ class PitchPrintDesigns extends AbstractModifier
         
         $credentials	= $db->fetchAll("SELECT * FROM $tableName");
         
-        if ( isset( $credentials[0] ) ) {
-        	return $this->fetchPpDesigns( $credentials[0] );    
-        }
-        
-//        print_r($credentials);die();
+        if ( isset( $credentials[0] ) ) 
+        	return $this->fetchPpDesigns( $credentials[0] );
+
         return static::PP_FIRST_SELECT_ELEMENT;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-//     public function modifyData(array $data)
-//     {
-//         return $data;
-//     } 
+    } 
 }

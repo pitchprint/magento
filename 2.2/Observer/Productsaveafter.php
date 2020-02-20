@@ -20,7 +20,6 @@ class Productsaveafter implements ObserverInterface
 	{
 		$this->request = $request;	
 	}
-	
     public function execute(\Magento\Framework\Event\Observer $observer)
 	{		
 		$product	= $observer->getProduct();	
@@ -34,7 +33,6 @@ class Productsaveafter implements ObserverInterface
 			};
 		}
 	}
-	
 	/**
 	 * Function to save designId with productId.
 	 * 
@@ -47,7 +45,7 @@ class Productsaveafter implements ObserverInterface
 		$objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
         $resource       = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $db             = $resource->getConnection(); 
-        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_PRODUCT_DESIGN); //gives table name with prefix
+        $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_PRODUCT_DESIGN);
       	$prodId			= $db->quote($prodId);
 		$designId		= $db->quote($designId);
 		

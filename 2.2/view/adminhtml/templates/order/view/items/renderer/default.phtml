@@ -1,13 +1,3 @@
-<?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-// @codingStandardsIgnoreFile
-
-?>
-<?php /** @var \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer $block */ ?>
 <?php $_item = $block->getItem() ?>
 <?php $block->setPriceDataObject($_item) ?>
 <tr>
@@ -16,7 +6,7 @@
     $lastItemNumber = count($columns) ?>
     <?php foreach ($columns as $columnName => $columnClass):?>
         <?php $i++; ?>
-        <td class="<?= /* @noEscape */ $columnClass ?><?= /* @noEscape */ ($i === $lastItemNumber ? ' last' : '') ?>"><?= /* @escapeNotVerified */ $block->getColumnHtml($_item, $columnName) ?>
+        <td class="<?= $columnClass ?><?=  ($i === $lastItemNumber ? ' last' : '') ?>"><?= $block->getColumnHtml($_item, $columnName) ?>
     	<?php if ($i === 1) : ?>
             <?php $ppId = $block->fetchPpData(); ?>
             <?php if ($ppId) : ?>
