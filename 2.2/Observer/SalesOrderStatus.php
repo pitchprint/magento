@@ -5,6 +5,7 @@ namespace PitchPrintInc\PitchPrint\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Directory\Model\CountryFactory;
+use Magento\Sales\Model\Order;
 
 
 class SalesOrderStatus implements ObserverInterface
@@ -24,7 +25,7 @@ class SalesOrderStatus implements ObserverInterface
     {
         $order = $observer->getEvent()->getOrder();
       
-        if($order->getState() == 'new') {
+        if($order->getState() == Order::STATE_COMPLETE) {
             //Your code after completed state goes to here
             $user = $this->authSession->getUser();
             $userId = $user ? $user->getId() : 0;
