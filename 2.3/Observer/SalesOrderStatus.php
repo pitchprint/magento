@@ -78,38 +78,38 @@ class SalesOrderStatus implements ObserverInterface
         array_push($shippingAddressArray, $this->countryFactory->create()->loadByCode($shippingAddress->getCountryId())->getName());
         
         $opts =  array (
-				'products' => $p_items,
-				'client' => 'mg',
-				'billingEmail' => $order->getCustomerEmail(),
-				'billingPhone' => $order->getShippingAddress()->getTelephone(),
-				'billingName' => $order->getCustomerName(),
-				'billingAddress' => $billingAddressArray,
-				'shippingName' => $order->getShippingAddress()->getFirstName(),
-				'shippingAddress' => $shippingAddressArray,
-				'orderId' => $order->getId(),
-				'customer' => $userId,
-				'status' => 'new',
-				'apiKey' => $cred['apiKey'],
-				'signature' => $cred['signature'],
-				'timestamp' => $cred['timestamp']
-		);
-		return $opts;
+                'products' =>  urlencode(json_encode($p_items)),
+                'client' => 'mg',
+                'billingEmail' => $order->getCustomerEmail(),
+                'billingPhone' => $order->getShippingAddress()->getTelephone(),
+                'billingName' => $order->getCustomerName(),
+                'billingAddress' => $billingAddressArray,
+                'shippingName' => $order->getShippingAddress()->getFirstName(),
+                'shippingAddress' => $shippingAddressArray,
+                'orderId' => $order->getId(),
+                'customer' => $userId,
+                'status' => 'new',
+                'apiKey' => $cred['apiKey'],
+                'signature' => $cred['signature'],
+                'timestamp' => $cred['timestamp']
+        );
+        return $opts;
     }
     private function fetchPpData($quoteId)
     {
-		$data = $this->getProjectData($quoteId);
-		if ($data) return $data[0]['project_data'];
-		return 0;
+        $data = $this->getProjectData($quoteId);
+        if ($data) return $data[0]['project_data'];
+        return 0;
     }
     private function getProjectData($quoteId) {
-	    $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
         $resource       = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $db             = $resource->getConnection(); 
         $tableName      = $resource->getTableName(\PitchPrintInc\PitchPrint\Config\Constants::TABLE_QUOTE_ITEM);
-		$sql            = "SELECT `project_data` FROM $tableName WHERE `quote_id` = $quoteId";
+        $sql            = "SELECT `project_data` FROM $tableName WHERE `item_id` = $quoteId";
         $data           = $db->fetchAll( $sql );
         return $data;
-	}
+    }
     private function generateSignature ( $credentials ) {
         $timestamp = time();
         $signature = md5($credentials['api_key'] . $credentials['secret_key'] . $timestamp);
