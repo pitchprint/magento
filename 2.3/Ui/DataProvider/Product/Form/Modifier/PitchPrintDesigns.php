@@ -272,7 +272,7 @@ class PitchPrintDesigns extends AbstractModifier
     	$options = static::PP_FIRST_SELECT_ELEMENT;
 		
         foreach( $designs as $data ) {		
-			$options[] = [ 'value' => $data->id, 'label' => $data->title ];
+			$options[] = [ 'value' => '*'.$data->id, 'label' => $data->title ];
         	
 			if ( isset( $data->items ) && count( $data->items ) ) {
 				$this->createListItems( $data->items, $options );
